@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savor & Sage - Fine Dining Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --restaurant-red: #e63946;
+      --restaurant-cream: #f1faee;
+      --restaurant-dark: #1d3557;
+      --restaurant-lightblue: #a8dadc;
+      --restaurant-medblue: #457b9d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--restaurant-dark);
+      color: var(--restaurant-cream);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .font-accent {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--restaurant-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--restaurant-red);
+      border-radius: 4px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 0;
+      transition: all 0.5s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(29, 53, 87, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 1rem 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .logo svg {
+      width: 32px;
+      height: 32px;
+      color: var(--restaurant-red);
+    }
+
+    .logo span {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--restaurant-cream);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(241, 250, 238, 0.8);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--restaurant-red);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--restaurant-red);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--restaurant-red);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: rgba(230, 57, 70, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--restaurant-cream);
+      border: 1px solid rgba(241, 250, 238, 0.3);
+    }
+
+    .btn-outline:hover {
+      background: rgba(241, 250, 238, 0.1);
+    }
+
+    .btn-large {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--restaurant-cream);
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(29, 53, 87, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 1rem 2rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      color: rgba(241, 250, 238, 0.8);
+      text-decoration: none;
+      padding: 0.5rem 0;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(29, 53, 87, 0.9), rgba(29, 53, 87, 0.7), rgba(29, 53, 87, 0.5));
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 8rem 2rem 4rem;
+      width: 100%;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-subtitle {
+      color: var(--restaurant-red);
+      font-style: italic;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.3s forwards;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--restaurant-cream);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeInUp 1.2s ease 0.5s forwards;
+    }
+
+    .hero-title span {
+      color: var(--restaurant-red);
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      color: rgba(241, 250, 238, 0.8);
+      max-width: 500px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.7s forwards;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease 0.9s forwards;
+    }
+
+    /* Booking Card */
+    .booking-card {
+      background: rgba(29, 53, 87, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      animation: flipIn 1s ease 0.8s forwards;
+    }
+
+    .booking-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--restaurant-cream);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(29, 53, 87, 0.5);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .input-wrapper svg {
+      width: 20px;
+      height: 20px;
+      color: var(--restaurant-red);
+      flex-shrink: 0;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      background: transparent;
+      border: none;
+      color: var(--restaurant-cream);
+      width: 100%;
+      font-size: 0.875rem;
+      outline: none;
+    }
+
+    .input-wrapper input::placeholder {
+      color: rgba(241, 250, 238, 0.4);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(29, 53, 87, 0.5);
+      border: 1px solid rgba(241, 250, 238, 0.2);
+      border-radius: 0.5rem;
+      color: var(--restaurant-cream);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--restaurant-red);
+    }
+
+    .form-input::placeholder {
+      color: rgba(241, 250, 238, 0.4);
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator-inner {
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(241, 250, 238, 0.3);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .scroll-indicator-inner::after {
+      content: '';
+      width: 4px;
+      height: 8px;
+      background: var(--restaurant-red);
+      border-radius: 2px;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-subtitle {
+      color: var(--restaurant-red);
+      font-style: italic;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--restaurant-cream);
+      margin-bottom: 1rem;
+    }
+
+    .section-title span {
+      color: var(--restaurant-red);
+    }
+
+    .section-description {
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text {
+      color: rgba(241, 250, 238, 0.7);
+      font-size: 1.125rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--restaurant-red);
+      text-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
+    }
+
+    .stat-label {
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .about-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .about-image {
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .about-image:first-child {
+      margin-top: 2rem;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+
+    .about-image:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Menu Section */
+    .menu-section {
+      background: linear-gradient(to bottom, rgba(69, 123, 157, 0.1), transparent);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .menu-card {
+      background: rgba(29, 53, 87, 0.5);
+      border: 1px solid rgba(241, 250, 238, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.5s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(230, 57, 70, 0.5);
+      box-shadow: 0 20px 40px -15px rgba(230, 57, 70, 0.3);
+    }
+
+    .menu-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .menu-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+
+    .menu-card:hover .menu-image img {
+      transform: scale(1.08);
+    }
+
+    .menu-category {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--restaurant-red);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .menu-content {
+      padding: 1.5rem;
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--restaurant-cream);
+      transition: color 0.3s ease;
+    }
+
+    .menu-card:hover .menu-name {
+      color: var(--restaurant-red);
+    }
+
+    .menu-price {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--restaurant-red);
+    }
+
+    .menu-description {
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .menu-footer {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    /* Gallery Section */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      border-radius: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item:first-child,
+    .gallery-item:last-child {
+      grid-row: span 2;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 250px;
+      transition: transform 0.7s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+      background: linear-gradient(to bottom, rgba(230, 57, 70, 0.05), transparent);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: rgba(29, 53, 87, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+    }
+
+    .quote-icon {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+      color: rgba(230, 57, 70, 0.2);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--restaurant-red);
+    }
+
+    .testimonial-info h4 {
+      color: var(--restaurant-cream);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .testimonial-info p {
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 0.875rem;
+    }
+
+    .testimonial-rating {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-rating svg {
+      width: 20px;
+      height: 20px;
+      color: var(--restaurant-red);
+      fill: var(--restaurant-red);
+    }
+
+    .testimonial-text {
+      color: rgba(241, 250, 238, 0.7);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* Contact Section */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(230, 57, 70, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--restaurant-red);
+    }
+
+    .contact-item h4 {
+      color: var(--restaurant-cream);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-item p {
+      color: rgba(241, 250, 238, 0.6);
+      font-size: 0.875rem;
+    }
+
+    .contact-form-wrapper {
+      background: rgba(29, 53, 87, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .contact-form-wrapper h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--restaurant-cream);
+    }
+
+    textarea.form-input {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--restaurant-dark);
+      border-top: 1px solid rgba(241, 250, 238, 0.1);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand p {
+      color: rgba(241, 250, 238, 0.6);
+      margin: 1rem 0 1.5rem;
+      max-width: 300px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(241, 250, 238, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--restaurant-red);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+      color: var(--restaurant-cream);
+    }
+
+    .footer-links h4 {
+      color: var(--restaurant-cream);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: rgba(241, 250, 238, 0.6);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--restaurant-red);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(241, 250, 238, 0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p {
+      color: rgba(241, 250, 238, 0.4);
+      font-size: 0.875rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-bottom-links a {
+      color: rgba(241, 250, 238, 0.4);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--restaurant-red);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes flipIn {
+      from {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(30deg);
+      }
+      to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--restaurant-dark);
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      border: 1px solid rgba(241, 250, 238, 0.1);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(241, 250, 238, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.25rem;
+      color: var(--restaurant-cream);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: rgba(241, 250, 238, 0.6);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .modal-close:hover {
+      color: var(--restaurant-red);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-body img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-body p {
+      color: rgba(241, 250, 238, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--restaurant-red);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .nav-container .btn {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .booking-card {
+        display: none;
+      }
+
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-images {
+        order: -1;
+      }
+
+      .menu-grid,
+      .testimonials-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item:first-child,
+      .gallery-item:last-child {
+        grid-row: span 1;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Selection */
+    ::selection {
+      background: rgba(230, 57, 70, 0.3);
+      color: var(--restaurant-cream);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-6-6h12M6 9h12M6 3h12M6 15h12" />
+        </svg>
+        <span>Savor & Sage</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="btn btn-primary">Reserve Table</a>
+
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home" onclick="toggleMobileMenu()">Home</a>
+      <a href="#about" onclick="toggleMobileMenu()">About</a>
+      <a href="#menu" onclick="toggleMobileMenu()">Menu</a>
+      <a href="#gallery" onclick="toggleMobileMenu()">Gallery</a>
+      <a href="#testimonials" onclick="toggleMobileMenu()">Reviews</a>
+      <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80" alt="Culinary excellence">
+    </div>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <div class="hero-grid">
+        <div>
+          <p class="hero-subtitle font-accent">Welcome to Culinary Excellence</p>
+          <h1 class="hero-title">Taste the <span>Difference</span></h1>
+          <p class="hero-description">Experience culinary excellence in the heart of the city. Where passion meets plate, and every bite tells a story.</p>
+          <div class="hero-buttons">
+            <a href="#menu" class="btn btn-primary btn-large">
+              Explore Menu
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#contact" class="btn btn-outline btn-large">Book a Table</a>
+          </div>
+        </div>
+
+        <div class="booking-card animate-float">
+          <h3>Make a Reservation</h3>
+          <form onsubmit="event.preventDefault(); alert('Reservation submitted!');">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date</label>
+                <div class="input-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <input type="date" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Guests</label>
+                <div class="input-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  <select>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                    <option value="5">5+ People</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-input" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" class="form-input" placeholder="Your phone number" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Reserve Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-indicator-inner"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <p class="section-subtitle font-accent">Our Story</p>
+          <h2 class="section-title">A Legacy of <span>Culinary</span> Excellence</h2>
+          <p class="about-text">Founded in 2010, Savor & Sage began with a simple mission: to serve food that makes people happy. Every dish tells a story of passion, fresh ingredients, and culinary craftsmanship passed down through generations.</p>
+          <p class="about-text">Our executive chef brings over 20 years of experience from Michelin-starred kitchens around the world, creating a menu that celebrates both tradition and innovation.</p>
+          
+          <div class="stats-grid">
+            <div class="stat-item">
+              <p class="stat-number">15+</p>
+              <p class="stat-label">Years Experience</p>
+            </div>
+            <div class="stat-item">
+              <p class="stat-number">50+</p>
+              <p class="stat-label">Menu Items</p>
+            </div>
+            <div class="stat-item">
+              <p class="stat-number">10K+</p>
+              <p class="stat-label">Happy Guests</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-images">
+          <div class="about-image reveal">
+            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80" alt="Our Chef">
+          </div>
+          <div class="about-image reveal">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" alt="Restaurant Interior">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-subtitle font-accent">Culinary Delights</p>
+        <h2 class="section-title">Our Signature <span>Dishes</span></h2>
+        <p class="section-description">Each dish is crafted with the finest ingredients, combining traditional techniques with modern creativity.</p>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-card reveal" onclick="openModal('Grilled Salmon', '$32', 'Fresh Atlantic salmon with asparagus and lemon butter sauce', 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80')">
+          <div class="menu-image">
+            <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80" alt="Grilled Salmon">
+            <span class="menu-category">Mains</span>
+          </div>
+          <div class="menu-content">
+            <div class="menu-header">
+              <h3 class="menu-name">Grilled Salmon</h3>
+              <span class="menu-price">$32</span>
+            </div>
+            <p class="menu-description">Fresh Atlantic salmon with asparagus and lemon butter sauce</p>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" onclick="openModal('Pasta Primavera', '$24', 'House-made pasta with seasonal vegetables and parmesan', 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80')">
+          <div class="menu-image">
+            <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80" alt="Pasta Primavera">
+            <span class="menu-category">Mains</span>
+          </div>
+          <div class="menu-content">
+            <div class="menu-header">
+              <h3 class="menu-name">Pasta Primavera</h3>
+              <span class="menu-price">$24</span>
+            </div>
+            <p class="menu-description">House-made pasta with seasonal vegetables and parmesan</p>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" onclick="openModal('Beef Tenderloin', '$48', 'Premium cut with red wine reduction and roasted vegetables', 'https://images.unsplash.com/photo-1546241072-48010ad2862c?w=800&q=80')">
+          <div class="menu-image">
+            <img src="https://images.unsplash.com/photo-1546241072-48010ad2862c?w=800&q=80" alt="Beef Tenderloin">
+            <span class="menu-category">Mains</span>
+          </div>
+          <div class="menu-content">
+            <div class="menu-header">
+              <h3 class="menu-name">Beef Tenderloin</h3>
+              <span class="menu-price">$48</span>
+            </div>
+            <p class="menu-description">Premium cut with red wine reduction and roasted vegetables</p>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" onclick="openModal('Chocolate Lava Cake', '$14', 'Warm chocolate cake with vanilla ice cream', 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=800&q=80')">
+          <div class="menu-image">
+            <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=800&q=80" alt="Chocolate Lava Cake">
+            <span class="menu-category">Desserts</span>
+          </div>
+          <div class="menu-content">
+            <div class="menu-header">
+              <h3 class="menu-name">Chocolate Lava Cake</h3>
+              <span class="menu-price">$14</span>
+            </div>
+            <p class="menu-description">Warm chocolate cake with vanilla ice cream</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-footer reveal">
+        <a href="#" class="btn btn-outline">
+          View Full Menu
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-subtitle font-accent">Visual Feast</p>
+        <h2 class="section-title">Our <span>Gallery</span></h2>
+        <p class="section-description">A glimpse into our world of culinary artistry and elegant dining experiences.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80" alt="Signature Cocktail">
+        </div>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80" alt="Appetizers">
+        </div>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80" alt="Fresh Seafood">
+        </div>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" alt="Artisan Pizza">
+        </div>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" alt="Restaurant Interior">
+        </div>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80" alt="Our Chef">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-subtitle font-accent">Guest Experiences</p>
+        <h2 class="section-title">What Our <span>Guests</span> Say</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <div class="testimonial-header">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Sarah Mitchell" class="testimonial-avatar">
+            <div class="testimonial-info">
+              <h4>Sarah Mitchell</h4>
+              <p>Food Critic</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text font-accent">"An extraordinary dining experience. Every dish was a masterpiece of flavor and presentation."</p>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <div class="testimonial-header">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="James Anderson" class="testimonial-avatar">
+            <div class="testimonial-info">
+              <h4>James Anderson</h4>
+              <p>Regular Guest</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text font-accent">"The attention to detail and service quality is unmatched. My favorite restaurant in the city."</p>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <div class="testimonial-header">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80" alt="Emily Chen" class="testimonial-avatar">
+            <div class="testimonial-info">
+              <h4>Emily Chen</h4>
+              <p>Event Planner</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text font-accent">"Perfect for special occasions. The ambiance is elegant and the food is consistently excellent."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <p class="section-subtitle font-accent">Get In Touch</p>
+          <h2 class="section-title">Reserve Your <span>Table</span></h2>
+          <p class="about-text">Ready to experience culinary excellence? Make a reservation or reach out to us for special events and inquiries.</p>
+
+          <div class="contact-info-list">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Address</h4>
+                <p>123 Gourmet Avenue, Culinary District</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Phone</h4>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Email</h4>
+                <p>reservations@savorandsage.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h4>Hours</h4>
+                <p>Mon-Sun: 11:00 AM - 11:00 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper reveal">
+          <h3>Make a Reservation</h3>
+          <form onsubmit="event.preventDefault(); alert('Reservation submitted successfully!');">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-input" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" class="form-input" placeholder="Your phone" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label>Guests</label>
+                <select class="form-input">
+                  <option value="2">2 People</option>
+                  <option value="3">3 People</option>
+                  <option value="4">4 People</option>
+                  <option value="5">5+ People</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Special Requests</label>
+              <textarea class="form-input" placeholder="Any dietary restrictions or special occasions?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Confirm Reservation</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-6-6h12M6 9h12M6 3h12M6 15h12" />
+            </svg>
+            <span>Savor & Sage</span>
+          </a>
+          <p>Where flavor meets artistry. Experience culinary excellence in an elegant atmosphere.</p>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#menu">Our Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Reservations</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li>123 Gourmet Avenue</li>
+            <li>Culinary District, CD 12345</li>
+            <li>+1 (555) 123-4567</li>
+            <li>reservations@savorandsage.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2024 Savor & Sage. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="menuModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Dish Name</h3>
+        <button class="modal-close" onclick="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="">
+        <p id="modalDescription">Description</p>
+        <div class="modal-footer">
+          <span class="modal-price" id="modalPrice">$0</span>
+          <button class="btn btn-primary" onclick="alert('Added to order!')">Add to Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    }
+
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Modal functions
+    function openModal(name, price, description, image) {
+      document.getElementById('modalTitle').textContent = name;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('modalDescription').textContent = description;
+      document.getElementById('modalImage').src = image;
+      document.getElementById('menuModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('menuModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click
+    document.getElementById('menuModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        closeModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
